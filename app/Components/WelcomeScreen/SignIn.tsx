@@ -1,10 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
 const SignIn = ({ navigation }: any) => {
   return (
     <View style={styles.screen}>
+      <Text style={{ top: 50, fontSize: 30, color: colors.first }}>
+        Log In or Sign Up to get started
+      </Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           style={styles.loginButton}
@@ -12,7 +15,10 @@ const SignIn = ({ navigation }: any) => {
         >
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("SignUp")}
+          style={styles.registerButton}
+        >
           <Text style={styles.registerText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -24,7 +30,7 @@ export default SignIn;
 
 const styles = StyleSheet.create({
   buttonsContainer: {
-    paddingTop: 125,
+    paddingTop: 100,
     width: "80%",
   },
   loginButton: {

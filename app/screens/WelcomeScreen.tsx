@@ -1,9 +1,19 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, View, Image, Text } from "react-native";
-import SignIn from "../Components/SignIn";
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Button,
+} from "react-native";
+import SignIn from "../Components/WelcomeScreen/SignIn";
 import colors from "../config/colors";
 import { createStackNavigator } from "@react-navigation/stack";
-import LogIn from "../Components/LogIn";
+import LogIn from "../Components/WelcomeScreen/LogIn";
+import SignUp from "../Components/WelcomeScreen/SignUp";
 
 export const WelcomeScreen = () => {
   const Stack = createStackNavigator();
@@ -12,10 +22,12 @@ export const WelcomeScreen = () => {
     <>
       <SafeAreaView style={{ flex: 0, backgroundColor: colors.first }} />
       <SafeAreaView style={styles.background}>
-        <View style={styles.logoContainer}>
-          <Image source={require("../assets/logo.png")} style={styles.logo} />
-          <Text style={styles.introText}>Today could be your day!</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.logoContainer}>
+            <Image source={require("../assets/logo.png")} style={styles.logo} />
+            <Text style={styles.introText}>Today could be your day!</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <View style={styles.bottom}>
           <Stack.Navigator
             screenOptions={{
@@ -24,6 +36,7 @@ export const WelcomeScreen = () => {
           >
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="LogIn" component={LogIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Navigator>
         </View>
       </SafeAreaView>
@@ -37,7 +50,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.second,
   },
-
   bottom: {
     height: "50%",
     width: "100%",
