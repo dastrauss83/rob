@@ -8,7 +8,7 @@ import {
   View,
   Image,
 } from "react-native";
-import { WelcomeScreen } from "./app/screens/WelcomeScreen";
+import { storeCurrentUser, WelcomeScreen } from "./app/screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, Header } from "@react-navigation/stack";
 import { HomeScreen } from "./app/screens/HomeScreen";
@@ -30,18 +30,19 @@ firebase.initializeApp({
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState<any>();
+  const [currentUser, setCurrentUser] = useState<any>("noUser");
 
   const logout = () => {
     firebase.auth().signOut();
-    setCurrentUser(null);
+    setCurrentUser("noUser");
+    storeCurrentUser("noUser");
   };
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem("currentUser");
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
+        return jsonValue != null ? JSON.parse(jsonValue) : "noUser";
       } catch (e) {
         return;
       }
@@ -56,7 +57,7 @@ export default function App() {
     >
       <NavigationContainer>
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-          {currentUser && (
+          {currentUser !== "noUser" && (
             <>
               <View style={styles.logout}>
                 <Button title="Log Out" onPress={logout} />
@@ -74,7 +75,7 @@ export default function App() {
               headerShown: false,
             }}
           >
-            {!currentUser ? (
+            {currentUser === "noUser" ? (
               <Stack.Screen name="Welcome" component={WelcomeScreen} />
             ) : (
               <>
