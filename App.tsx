@@ -1,20 +1,22 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   View,
+  Image,
 } from "react-native";
 import { WelcomeScreen } from "./app/screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, Header } from "@react-navigation/stack";
 import { HomeScreen } from "./app/screens/HomeScreen";
 import firebase from "firebase/app";
 import { useState } from "react";
 import { UserContext } from "./app/UserContext";
 import { SafeAreaView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCBwKkaFrsTaO8T0yXvqfrST5-eunuhXQk",
@@ -35,17 +37,37 @@ export default function App() {
     setCurrentUser(null);
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("currentUser");
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+      } catch (e) {
+        return;
+      }
+    };
+    setCurrentUser(getUser());
+  }, []);
+
   return (
-    <NavigationContainer>
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <NavigationContainer>
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
           {currentUser && (
-            <View style={styles.logout}>
-              <Button title="Log Out" onPress={logout} />
-            </View>
+            <>
+              <View style={styles.logout}>
+                <Button title="Log Out" onPress={logout} />
+              </View>
+              <View style={styles.logoView}>
+                <Image
+                  source={require("./app/assets/logo.png")}
+                  style={styles.logo}
+                />
+              </View>
+            </>
           )}
           <Stack.Navigator
             screenOptions={{
@@ -60,9 +82,9 @@ export default function App() {
               </>
             )}
           </Stack.Navigator>
-        </KeyboardAvoidingView>
-      </UserContext.Provider>
-    </NavigationContainer>
+        </UserContext.Provider>
+      </NavigationContainer>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -70,7 +92,17 @@ const styles = StyleSheet.create({
   logout: {
     position: "absolute",
     zIndex: 100,
-    top: 30,
+    top: 35,
     left: 5,
+  },
+  logo: {
+    width: 35,
+    height: 35,
+  },
+  logoView: {
+    position: "absolute",
+    zIndex: 100,
+    top: 35,
+    right: 8,
   },
 });

@@ -1,32 +1,63 @@
 import React from "react";
-import { Button, StyleSheet } from "react-native";
-import { View } from "react-native";
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  View,
+} from "react-native";
 import colors from "../config/colors";
 
-export const HomeScreen = ({ navigation }: any) => {
+export const HomeScreen = () => {
   return (
-    <View style={styles.background}>
-      <Button
-        title="Back to Log In"
-        onPress={() => navigation.navigate("Welcome")}
-      />
-      <View>
-        <View>
-          <Button
-            title="pooppoooo"
-            onPress={() => navigation.navigate("Welcome")}
-          />
-        </View>
+    <SafeAreaView style={styles.background}>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.loginText}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.registerButton}>
+          <Text style={styles.registerText}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: colors.second,
+    backgroundColor: colors.first,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonsContainer: {
+    paddingTop: 100,
+    width: "80%",
+  },
+  registerText: {
+    fontSize: 25,
+    color: "white",
+  },
+  loginText: {
+    fontSize: 25,
+    color: colors.second,
+  },
+  registerButton: {
+    width: "100%",
+    height: 70,
+    backgroundColor: colors.third,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+  },
+  loginButton: {
+    width: "100%",
+    height: 70,
+    backgroundColor: colors.first,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
   },
 });

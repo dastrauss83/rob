@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 import colors from "../../config/colors";
+import { storeCurrentUser } from "../../screens/WelcomeScreen";
 import { useUserContext } from "../../UserContext";
 
 const SignUp = () => {
@@ -36,6 +37,7 @@ const SignUp = () => {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setCurrentUser(userCredential.user);
+        storeCurrentUser(userCredential.user);
       });
     onChangeEmail("");
     onChangePassword("");

@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 import colors from "../../config/colors";
+import { storeCurrentUser } from "../../screens/WelcomeScreen";
 import { useUserContext } from "../../UserContext";
 
 const LogIn = () => {
@@ -31,6 +32,7 @@ const LogIn = () => {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setCurrentUser(userCredential.user);
+        storeCurrentUser(userCredential.user);
       })
       .catch((error) => {
         Alert.alert(
@@ -38,9 +40,9 @@ const LogIn = () => {
           "Please ensure you have entered your Email and Password correctly",
           [{ text: "Ok" }]
         );
+        onChangeEmail("");
+        onChangePassword("");
       });
-    onChangeEmail("");
-    onChangePassword("");
   };
 
   return (
@@ -58,6 +60,7 @@ const LogIn = () => {
             autoCompleteType="email"
             keyboardType="email-address"
             autoCapitalize="none"
+            textContentType="none"
           />
           <TextInput
             style={styles.input}
@@ -66,6 +69,7 @@ const LogIn = () => {
             secureTextEntry={true}
             placeholder={"Password"}
             autoCompleteType="password"
+            textContentType="none"
           />
           <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
             <Text style={styles.loginText}>Log In</Text>

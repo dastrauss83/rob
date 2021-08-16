@@ -7,13 +7,18 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
 } from "react-native";
 import SignIn from "../Components/WelcomeScreen/SignIn";
 import colors from "../config/colors";
 import { createStackNavigator } from "@react-navigation/stack";
 import LogIn from "../Components/WelcomeScreen/LogIn";
 import SignUp from "../Components/WelcomeScreen/SignUp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export const storeCurrentUser = async (value: any) => {
+  const jsonValue = JSON.stringify(value);
+  await AsyncStorage.setItem("currentUser", jsonValue);
+};
 
 export const WelcomeScreen = () => {
   const Stack = createStackNavigator();
@@ -53,6 +58,7 @@ const styles = StyleSheet.create({
   bottom: {
     height: "50%",
     width: "100%",
+    flex: 1,
   },
   logo: {
     width: 200,
