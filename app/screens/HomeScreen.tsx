@@ -25,7 +25,7 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: colors.first,
+    backgroundColor: colors.second,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

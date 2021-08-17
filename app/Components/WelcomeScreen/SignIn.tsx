@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     fontSize: 25,
-    color: "white",
+    color: colors.first,
   },
   loginText: {
     fontSize: 25,
