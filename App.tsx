@@ -15,8 +15,9 @@ import { HomeScreen } from "./app/screens/HomeScreen";
 import firebase from "firebase/app";
 import { useState } from "react";
 import { UserContext } from "./app/UserContext";
-import { SafeAreaView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TouchableOpacity } from "react-native";
+import Menu from "./app/Components/Menu";
 
 firebase.initializeApp({
   apiKey: "AIzaSyCBwKkaFrsTaO8T0yXvqfrST5-eunuhXQk",
@@ -31,12 +32,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<any>("noUser");
-
-  const logout = () => {
-    firebase.auth().signOut();
-    setCurrentUser("noUser");
-    storeCurrentUser("noUser");
-  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -57,19 +52,7 @@ export default function App() {
     >
       <NavigationContainer>
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-          {currentUser !== "noUser" && (
-            <>
-              <View style={styles.logout}>
-                <Button title="Log Out" onPress={logout} />
-              </View>
-              <View style={styles.logoView}>
-                <Image
-                  source={require("./app/assets/logo.png")}
-                  style={styles.logo}
-                />
-              </View>
-            </>
-          )}
+          {currentUser !== "noUser" && <Menu />}
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
@@ -89,21 +72,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  logout: {
-    position: "absolute",
-    zIndex: 100,
-    top: 35,
-    left: 5,
-  },
-  logo: {
-    width: 35,
-    height: 35,
-  },
-  logoView: {
-    position: "absolute",
-    zIndex: 100,
-    top: 35,
-    right: 8,
-  },
-});
+const styles = StyleSheet.create({});
